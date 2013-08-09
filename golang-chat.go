@@ -129,7 +129,7 @@ func main() {
 				// Send them a message in a go-routine
 				// so that the network operation doesn't block
 				//
-				go func(conn net.Conn) {
+				go func(conn net.Conn, message string) {
 					_, err := conn.Write([]byte(message))
 
 					// If there was an error communicating
@@ -137,7 +137,7 @@ func main() {
 					if err != nil {
 						deadConnections <- conn
 					}
-				}(conn)
+				}(conn, message)
 			}
 			log.Printf("New message: %s", message)
 			log.Printf("Broadcast to %d clients", len(allClients))
